@@ -105,7 +105,6 @@ export default function Game() {
               <S.CardIcon>
                 <SvgIcon component={cardList[id].icon} />
               </S.CardIcon>
-              {index > Math.floor(cards.length / 5) * 5 ? cards.length % 5 : 5}
               <S.CardDescription>{cardList[id].description}</S.CardDescription>
             </S.Card>
           ))}
