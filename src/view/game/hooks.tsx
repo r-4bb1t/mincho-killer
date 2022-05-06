@@ -171,7 +171,7 @@ export default function useGame() {
   const notify = (message: string) => toast(message);
 
   const gameover = () => {
-    setIsGameover(true);
+    if (!isWin) setIsGameover(true);
   };
 
   const handleArrive = (arrivedCell: cell) => {

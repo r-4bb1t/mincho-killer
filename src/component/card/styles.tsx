@@ -10,8 +10,8 @@ const player = keyframes`
 `;
 
 export const Card = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   img {
     width: 100%;
     height: 100%;

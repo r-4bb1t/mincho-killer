@@ -59,13 +59,13 @@ export const Card = styled.div<CardProps>`
   position: absolute;
   top: 0;
   left: 0;
-  width: 200px;
-  height: 300px;
+  width: 180px;
+  height: 260px;
   z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2) + p.y * 10};
   transform: ${(p) =>
     `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-      (p.index - (p.lineIndex - 1) / 2) * 200
-    }px, ${-Math.abs(p.index - (p.lineIndex - 1) / 2) * 5 - 30 + p.y * 70}px)`};
+      (p.index - (p.lineIndex - 1) / 2) * 180
+    }px, ${-Math.abs(p.index - (p.lineIndex - 1) / 2) * 5 - 10 + p.y * 70}px)`};
   background: ${(p) =>
     p.disabled ? "rgba(205, 205, 205, 0.59)" : "rgba(255, 255, 255, 0.59)"};
   border-radius: 16px;
@@ -79,9 +79,9 @@ export const Card = styled.div<CardProps>`
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transform: ${(p) =>
       `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-        (p.index - (p.lineIndex - 1) / 2) * 200
+        (p.index - (p.lineIndex - 1) / 2) * 180
       }px, ${
-        Math.abs(p.index - (p.lineIndex - 1) / 2) - 200 + p.y * 100
+        Math.abs(p.index - (p.lineIndex - 1) / 2) - 180 + p.y * 100
       }px) scale(1.1)`};
   }
   display: flex;
@@ -114,7 +114,7 @@ export const Card = styled.div<CardProps>`
 
 export const Board = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 80px);
+  grid-template-columns: repeat(7, 60px);
   gap: 2px;
   justify-content: center;
   padding-top: 20px;
@@ -138,8 +138,8 @@ export const BoardCell = styled.div<BoardCellProps>`
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   aspect-ratio: 1;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   opacity: 0;
 
   animation: 0.2s ${(p) => p.animationIndex / 10}s ${ceil} ease-in-out;
@@ -156,7 +156,7 @@ export const BoardCell = styled.div<BoardCellProps>`
 
 export const CardTitle = styled.div`
   font-weight: 800;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   word-break: keep-all;
 `;
@@ -164,7 +164,7 @@ export const CardTitle = styled.div`
 export const CardIcon = styled.div`
   margin: 20px 0;
   svg {
-    font-size: 50px;
+    font-size: 40px;
     border-radius: 20px;
     padding: 5px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
@@ -175,6 +175,7 @@ export const CardIcon = styled.div`
 export const CardDescription = styled.div`
   color: #444;
   font-weight: 500;
+  font-size: 14px;
 `;
 
 export const HeartContainer = styled.div`
