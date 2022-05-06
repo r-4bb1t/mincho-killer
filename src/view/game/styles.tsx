@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import { actionType } from "../../constant/card";
 
 export const Layout = styled.div`
   width: 100vw;
@@ -14,13 +15,14 @@ export const GameSection = styled.section`
   height: 100%;
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
 export const CardsSection = styled.section`
   width: 100vw;
-  height: 300px;
+  height: 250px;
   left: 0;
   bottom: 0;
   display: flex;
@@ -37,21 +39,41 @@ const removeCard = keyframes`
   }
 `;
 
+const newCard = keyframes`
+  from {
+    opacity: 0;
+    box-shadow: 0 4px 30px rgba(255, 217, 0, 0.3);
+  }
+  to {
+    opacity: 1;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+`;
+
 interface CardProps {
   index: number;
   allIndex: number;
   removing: boolean;
-  disabled?: boolean;
+  type: actionType;
 }
 
-export const Card = styled.div<CardProps>`
+export const CardContainer = styled.div`
+  position: relative;
   width: 200px;
-  height: 280px;
+  transform: translateY(-30px);
+`;
+
+export const Card = styled.div<CardProps>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 300px;
   z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2)};
   transform: ${(p) =>
-    `rotate(${(p.index - (p.allIndex - 1) / 2) * 5}deg) translate(${
-      -(p.index - (p.allIndex - 1) / 2) * 50
-    }px, ${Math.pow(Math.abs(p.index - (p.allIndex - 1) / 2), 2) * 10}px)`};
+    `rotate(${(p.index - (p.allIndex - 1) / 2) * 3}deg) translate(${
+      (p.index - (p.allIndex - 1) / 2) * 160
+    }px, ${Math.abs(p.index - (p.allIndex - 1) / 2) - 30}px)`};
   background: rgba(255, 255, 255, 0.59);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -64,12 +86,9 @@ export const Card = styled.div<CardProps>`
     margin-top: -10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transform: ${(p) =>
-      `rotate(${(p.index - (p.allIndex - 1) / 2) * 5}deg) translate(${
-        -(p.index - (p.allIndex - 1) / 2) * 50
-      }px, ${
-        Math.pow(Math.abs(p.index - (p.allIndex - 1) / 2), 2) * 10 -
-        (p.removing ? 50 : 10)
-      }px) scale(1.1)`};
+      `rotate(${(p.index - (p.allIndex - 1) / 2) * 3}deg) translate(${
+        (p.index - (p.allIndex - 1) / 2) * 160
+      }px, ${Math.abs(p.index - (p.allIndex - 1) / 2) - 30}px) scale(1.1)`};
   }
   display: flex;
   flex-direction: column;
@@ -80,11 +99,28 @@ export const Card = styled.div<CardProps>`
     css`
       animation: 0.5s ${removeCard} ease;
     `}
+  overflow-x: hidden;
+  ::before {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    content: "";
+    background: ${(p) =>
+      p.type === actionType.move
+        ? "#839adf"
+        : p.type === actionType.attack
+        ? "#e16d6d"
+        : p.type === actionType.heal
+        ? "#589558"
+        : "white"};
+  }
 `;
 
 export const Board = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 100px);
+  grid-template-columns: repeat(7, 80px);
   gap: 2px;
   justify-content: center;
   padding-top: 20px;
@@ -108,8 +144,8 @@ export const BoardCell = styled.div<BoardCellProps>`
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   aspect-ratio: 1;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   opacity: 0;
 
   animation: 0.2s ${(p) => p.animationIndex / 10}s ${ceil} ease-in-out;
@@ -129,4 +165,67 @@ export const CardTitle = styled.div`
   font-size: 18px;
   text-align: center;
   word-break: keep-all;
+`;
+
+export const CardIcon = styled.div`
+  margin: 20px 0;
+  svg {
+    font-size: 50px;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+  }
+`;
+
+export const CardDescription = styled.div`
+  color: #444;
+  font-weight: 500;
+`;
+
+export const HeartContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  svg {
+    color: #e94b4b;
+  }
+`;
+
+export const GameoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  gap: 20px;
+`;
+
+export const Gameover = styled.div`
+  color: white;
+  font-size: 72px;
+  font-weight: 700;
+`;
+
+export const RestartButton = styled.button`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.59);
+  border: 1px solid white;
+  svg {
+    font-size: 50px;
+  }
 `;

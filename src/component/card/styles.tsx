@@ -2,16 +2,16 @@ import styled, { keyframes } from "styled-components";
 
 const player = keyframes`
   from {
-    transform: translateY(0);
+    transform: translateY(5px);
   }
   to {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 `;
 
 export const Card = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   img {
     width: 100%;
     height: 100%;
