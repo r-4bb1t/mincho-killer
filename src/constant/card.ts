@@ -21,7 +21,10 @@ export enum actionType {
   attack,
   move,
   heal,
+  maxHeal,
   draw,
+  tp,
+  newCards,
   //item
   //random
 }
@@ -134,10 +137,30 @@ export const cardList = [
   },
   {
     id: 10,
-    name: "체력 1 회복",
+    name: "체력 포션",
     type: actionType.heal,
-    action: [{ num: 1 }],
-    icon: LocalHospital,
-    description: "체력을 1 회복합니다.",
+    action: [{ num: 3 }],
+    description: "체력을 3 회복합니다.",
+  },
+  {
+    id: 11,
+    name: "파워 엘릭서",
+    type: actionType.maxHeal,
+    description: "체력을 모두 회복합니다.",
+    action: [{ num: 5 }],
+  },
+  {
+    id: 12,
+    name: "순간이동",
+    type: actionType.tp,
+    description: "순간이동합니다. 어디로 갈지는 몰라요!",
+    action: [],
+  },
+  {
+    id: 13,
+    name: "이게 아니야!",
+    type: actionType.newCards,
+    description: "모든 카드를 새로운 카드로 교체합니다.",
+    action: [],
   },
 ];

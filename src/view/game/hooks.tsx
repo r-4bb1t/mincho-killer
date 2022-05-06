@@ -76,7 +76,8 @@ export default function useGame() {
       { cell: cell.none },
     ],
   ] as { cell: cell; heart?: number; attacked?: boolean }[][]);
-  const [heart, setHeart] = useState(5);
+  const max_hp = 10;
+  const [heart, setHeart] = useState(3);
   const [loading, setLoading] = useState(true);
   const [isGameover, setIsGameover] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -209,6 +210,40 @@ export default function useGame() {
           }
         });
         break;
+
+      case actionType.heal:
+        a.forEach((aa) => {
+          setHeart(Math.min(heart + aa.num!, max_hp));
+        });
+        break;
+
+      case actionType.maxHeal:
+        setHeart(max_hp);
+        break;
+
+      case actionType.tp:
+        let new_x = Math.floor(Math.random() * 7);
+        let new_y = Math.floor(Math.random() * 7);
+        let bb = Array.from(board);
+        if (handleArrive(bb[new_y][new_x].cell)) {
+          bb[cy][cx].cell = cell.none;
+          bb[new_y][new_x].cell = cell.player;
+          cy += new_y;
+          cx += new_x;
+          setBoard(bb);
+        } else flag = true;
+        break;
+
+      case actionType.newCards:
+        const newcards = [];
+        for (let i = 0; i < cards.length; i++) {
+          newcards.push(
+            cardList[Math.floor(Math.random() * cardList.length)].id
+          );
+        }
+        setCards(newcards);
+        break;
+
       case actionType.draw:
         for (let i = 0; i < a[0]!.num!; i++) {
           const randomCard = Math.floor(Math.random() * cardList.length);
