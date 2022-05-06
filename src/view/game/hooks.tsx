@@ -7,7 +7,8 @@ function sleep(sec: number) {
 }
 
 export default function useGame() {
-  const [cards, setCards] = useState([0, 1, 0, 1, 0, 1, 0]);
+  const [hp, setHp] = useState(3);
+  const [cards, setCards] = useState([0, 1, 2, 3, 4, 5, 0]);
   const [removingIndex, setRemovingIndex] = useState(-1);
   const [board, setBoard] = useState([
     [
@@ -83,6 +84,9 @@ export default function useGame() {
           cardList[Math.floor(Math.random() * cardList.length)].id,
         ]);
         break;
+
+      default:
+        break;
     }
   };
 
@@ -134,7 +138,44 @@ export default function useGame() {
           });
           return bb;
         });
+        break;
+
+      case actionType.heal:
+        a.forEach((aa) => {
+          setHp(hp + aa.num!);
+        });
+        break;
+
+      case actionType.tp:
+        let new_x = Math.floor(Math.random() * 8);
+        let new_y = Math.floor(Math.random() * 8);
+        setBoard((b) => {
+          let bb = Array.from(b);
+          bb[cy][cx] = cell.none;
+          handleArrive(bb[new_y][new_x]);
+          bb[new_y][new_x] = cell.player;
+          return bb;
+        });
+        break;
+
+      case actionType.newCards:
+        const newcards = [];
+        for (let i = 0; i < 7; i++) {
+          newcards.push(
+            cardList[Math.floor(Math.random() * cardList.length)].id
+          );
+        }
+        setCards(newcards);
+        break;
     }
   };
-  return { cards, board, setBoard, setCards, handleAction, removingIndex };
+
+  return {
+    cards,
+    board,
+    setBoard,
+    setCards,
+    handleAction,
+    removingIndex,
+  };
 }

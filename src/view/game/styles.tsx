@@ -108,8 +108,8 @@ export const BoardCell = styled.div<BoardCellProps>`
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   aspect-ratio: 1;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   opacity: 0;
 
   animation: 0.2s ${(p) => p.animationIndex / 10}s ${ceil} ease-in-out;

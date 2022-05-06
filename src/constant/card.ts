@@ -9,6 +9,8 @@ export enum actionType {
   move,
   heal,
   draw,
+  tp,
+  newCards,
   //item
   //random
 }
@@ -31,5 +33,23 @@ export const cardList = [
     name: "카드 한 장 뽑기",
     type: actionType.draw,
     action: [{ num: 1 }],
+  },
+  {
+    id: 3,
+    name: "체력 3 회복",
+    type: actionType.heal,
+    action: [{ num: 3 }],
+  },
+  {
+    id: 4,
+    name: "랜덤 위치로 순간이동",
+    type: actionType.tp,
+    action: [],
+  },
+  {
+    id: 5,
+    name: "모든 카드 랜덤 변환",
+    type: actionType.newCards,
+    action: [],
   },
 ];
