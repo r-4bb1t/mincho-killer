@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./styles";
 
-export default function Monster() {
-  const [heart, setHeart] = useState(3);
+interface MonsterProps {
+  heart: number;
+  attacked: boolean;
+}
+
+export default function Monster({ heart, attacked }: MonsterProps) {
   return (
-    <S.Monster>
-      <img src="/assets/monster.png" />
-      <S.Heart percent={(heart / 3) * 100}></S.Heart>
-    </S.Monster>
+    <S.MonsterContainer>
+      <S.Monster>
+        <img src="/assets/monster.png" />
+        <S.Heart percent={(heart / 3) * 100}></S.Heart>
+      </S.Monster>
+      {attacked && (
+        <S.AttackEffect>
+          <img src="/assets/player_attackeffect.gif" />
+        </S.AttackEffect>
+      )}
+    </S.MonsterContainer>
   );
 }

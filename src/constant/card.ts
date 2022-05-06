@@ -4,6 +4,7 @@ import {
   ArrowForward,
   ArrowUpward,
   GridOn,
+  LocalHospital,
   PlusOne,
   SelectAll,
 } from "@material-ui/icons";
@@ -130,5 +131,13 @@ export const cardList = [
     ],
     icon: SelectAll,
     description: "왼쪽, 오른쪽, 위쪽, 아래쪽 사방향에 1의 공격을 날립니다.",
+  },
+  {
+    id: 10,
+    name: "체력 1 회복",
+    type: actionType.heal,
+    action: [{ num: 1 }],
+    icon: LocalHospital,
+    description: "체력을 1 회복합니다.",
   },
 ];

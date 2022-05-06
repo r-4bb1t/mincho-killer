@@ -55,6 +55,7 @@ interface CardProps {
   allIndex: number;
   removing: boolean;
   type: actionType;
+  disabled: boolean;
 }
 
 export const CardContainer = styled.div`
@@ -74,7 +75,8 @@ export const Card = styled.div<CardProps>`
     `rotate(${(p.index - (p.allIndex - 1) / 2) * 3}deg) translate(${
       (p.index - (p.allIndex - 1) / 2) * 160
     }px, ${Math.abs(p.index - (p.allIndex - 1) / 2) - 30}px)`};
-  background: rgba(255, 255, 255, 0.59);
+  background: ${(p) =>
+    p.disabled ? "rgba(205, 205, 205, 0.59)" : "rgba(255, 255, 255, 0.59)"};
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8.7px);

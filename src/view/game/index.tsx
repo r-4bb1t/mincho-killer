@@ -13,8 +13,17 @@ import { Autorenew, Favorite } from "@material-ui/icons";
 import Monster from "../../component/monster";
 
 export default function Game() {
-  const { board, cards, handleAction, removingIndex, heart, isGameover } =
-    useGame();
+  const {
+    board,
+    cards,
+    handleAction,
+    removingIndex,
+    heart,
+    isGameover,
+    disabled,
+    bossHeart,
+    bossAttacked,
+  } = useGame();
   return (
     <S.Layout>
       {isGameover && (
@@ -40,8 +49,15 @@ export default function Game() {
                     [cell.none]: <></>,
                     [cell.player]: <Player />,
                     [cell.card]: <Card />,
-                    [cell.boss]: <Boss />,
-                    [cell.monster]: <Monster />,
+                    [cell.boss]: (
+                      <Boss heart={bossHeart} attacked={bossAttacked} />
+                    ),
+                    [cell.monster]: (
+                      <Monster
+                        heart={board[yi][xi].heart!}
+                        attacked={board[yi][xi].attacked!}
+                      />
+                    ),
                   }[board[yi][xi].cell]
                 }
               </S.BoardCell>
@@ -62,11 +78,12 @@ export default function Game() {
               index={index}
               allIndex={cards.length}
               onClick={(e) => {
-                if (removingIndex === -1)
+                if (removingIndex === -1 && !disabled)
                   handleAction(index, cardList[id].type, cardList[id].action);
               }}
               removing={removingIndex === index}
               type={cardList[id].type}
+              disabled={disabled}
               key={index}
             >
               <S.CardTitle>{cardList[id].name}</S.CardTitle>

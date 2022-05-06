@@ -22,9 +22,9 @@ export default function useGame() {
       { cell: cell.none },
     ],
     [
-      { cell: cell.monster },
       { cell: cell.none },
       { cell: cell.none },
+      { cell: cell.monster, heart: 3, attacked: false },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
@@ -55,7 +55,7 @@ export default function useGame() {
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster },
+      { cell: cell.monster, heart: 3, attacked: false },
     ],
     [
       { cell: cell.none },
@@ -69,19 +69,22 @@ export default function useGame() {
     [
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster },
+      { cell: cell.monster, heart: 3, attacked: false },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
     ],
-  ] as { cell: cell }[][]);
-  const [heart, setHeart] = useState(3);
+  ] as { cell: cell; heart?: number; attacked?: boolean }[][]);
+  const [heart, setHeart] = useState(5);
   const [loading, setLoading] = useState(true);
   const [isGameover, setIsGameover] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [bossHeart, setBossHeart] = useState(10);
+  const [bossAttacked, setBossAttacked] = useState(false);
 
   useEffect(() => {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 7; i++) {
       const randomCard = Math.floor(Math.random() * cardList.length);
       setCards((c) => [...c, cardList[randomCard].id]);
     }
@@ -89,14 +92,50 @@ export default function useGame() {
   }, []);
 
   useEffect(() => {
-    if (
-      !loading &&
-      removingIndex === -1 &&
-      (cards.length === 0 || heart === 0)
-    ) {
+    if (!loading && removingIndex === -1 && cards.length === 0) {
       gameover();
     }
   }, [cards]);
+
+  useEffect(() => {
+    if (!loading && removingIndex === -1 && heart <= 0) {
+      gameover();
+    }
+    async function yourTurn() {
+      await sleep(1000);
+      board.map((y, yi) =>
+        y.map((x, xi) => {
+          if (board[yi][xi].cell === cell.monster) {
+            const dir = [
+              [1, 0],
+              [-1, 0],
+              [0, 1],
+              [0, -1],
+            ];
+            for (let i = 0; i < 4; i++) {
+              if (
+                yi + dir[i][0] < 0 ||
+                yi + dir[i][0] >= 7 ||
+                xi + dir[i][1] < 0 ||
+                xi + dir[i][1] >= 7
+              )
+                continue;
+              if (board[yi + dir[i][0]][xi + dir[i][1]].cell === cell.player) {
+                setHeart((h) => h - 1);
+              }
+            }
+          }
+        })
+      );
+      await sleep(500);
+      setDisabled(false);
+    }
+    if (turn % 2 === 1) {
+      setDisabled(true);
+      setTurn((t) => t + 1);
+      yourTurn();
+    }
+  }, [turn]);
 
   const notify = (message: string) => toast(message);
 
@@ -152,9 +191,9 @@ export default function useGame() {
           if (flag) return;
           if (
             cy + aa.y! < 0 ||
-            cy + aa.y! > 7 ||
+            cy + aa.y! >= 7 ||
             cx + aa.x! < 0 ||
-            cx + aa.x! > 7
+            cx + aa.x! >= 7
           ) {
             notify("이동할 수 없습니다.");
             flag = true;
@@ -177,6 +216,30 @@ export default function useGame() {
           notify("새 카드를 얻었습니다.");
         }
         break;
+      case actionType.attack:
+        a.forEach(async (aa) => {
+          if (
+            cy + aa.y! < 0 ||
+            cy + aa.y! >= 7 ||
+            cx + aa.x! < 0 ||
+            cx + aa.x! >= 7
+          ) {
+          } else {
+            let bb = Array.from(board);
+            if (bb[cy + aa.y!][cx + aa.x!].cell === cell.monster) {
+              bb[cy + aa.y!][cx + aa.x!].heart! -= aa.num!;
+              bb[cy + aa.y!][cx + aa.x!].attacked! = true;
+              setBoard(bb);
+              await sleep(300);
+              let bbb = Array.from(bb);
+              bbb[cy + aa.y!][cx + aa.x!].attacked! = false;
+              setBoard(bbb);
+            }
+          }
+        });
+        break;
+      case actionType.heal:
+        a.forEach((aa) => setHeart((h) => Math.max(h + aa.num!, 5)));
     }
     setTurn((t) => t + 1);
   };
@@ -188,5 +251,8 @@ export default function useGame() {
     handleAction,
     removingIndex,
     isGameover,
+    disabled,
+    bossAttacked,
+    bossHeart,
   };
 }
