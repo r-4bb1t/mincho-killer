@@ -81,7 +81,7 @@ export const Card = styled.div<CardProps>`
       `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
         (p.index - (p.lineIndex - 1) / 2) * 180
       }px, ${
-        Math.abs(p.index - (p.lineIndex - 1) / 2) - 180 + p.y * 100
+        Math.abs(p.index - (p.lineIndex - 1) / 2) - 140 + p.y * 80
       }px) scale(1.1)`};
   }
   display: flex;
