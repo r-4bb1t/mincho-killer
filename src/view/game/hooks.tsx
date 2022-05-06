@@ -8,7 +8,8 @@ function sleep(sec: number) {
 
 export default function useGame() {
   const [hp, setHp] = useState(3);
-  const [cards, setCards] = useState([0, 1, 2, 3, 4, 5, 0]);
+  const max_hp = 10;
+  const [cards, setCards] = useState([0, 1, 2, 3, 4, 5, 6]);
   const [removingIndex, setRemovingIndex] = useState(-1);
   const [board, setBoard] = useState([
     [
@@ -142,13 +143,17 @@ export default function useGame() {
 
       case actionType.heal:
         a.forEach((aa) => {
-          setHp(hp + aa.num!);
+          setHp(Math.min(hp + aa.num!, max_hp));
         });
         break;
 
+      case actionType.maxHeal:
+        setHp(max_hp);
+        break;
+
       case actionType.tp:
-        let new_x = Math.floor(Math.random() * 8);
-        let new_y = Math.floor(Math.random() * 8);
+        let new_x = Math.floor(Math.random() * 7);
+        let new_y = Math.floor(Math.random() * 7);
         setBoard((b) => {
           let bb = Array.from(b);
           bb[cy][cx] = cell.none;
