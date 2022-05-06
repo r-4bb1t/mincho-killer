@@ -17,31 +17,31 @@ export default function useGame() {
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.card },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+    ],
+    [
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
     ],
     [
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster, heart: 2, attacked: false },
+      { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
     ],
     [
-      { cell: cell.card },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.card },
-    ],
-    [
-      { cell: cell.none },
-      { cell: cell.card },
       { cell: cell.none },
       { cell: cell.boss, heart: 5, attacked: false },
       { cell: cell.none },
@@ -52,10 +52,10 @@ export default function useGame() {
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.card },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster, heart: 2, attacked: false },
+      { cell: cell.none },
+      { cell: cell.none },
     ],
     [
       { cell: cell.none },
@@ -64,12 +64,12 @@ export default function useGame() {
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.card },
+      { cell: cell.none },
     ],
     [
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster, heart: 2, attacked: false },
+      { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
@@ -88,6 +88,28 @@ export default function useGame() {
     for (let i = 0; i < 9; i++) {
       const randomCard = Math.floor(Math.random() * cardList.length);
       setCards((c) => [...c, cardList[randomCard].id]);
+    }
+    for (let i = 0; i < 5; i++) {
+      let bb = Array.from(board);
+      let new_x = Math.floor(Math.random() * 7);
+      let new_y = Math.floor(Math.random() * 7);
+      while (board[new_y][new_x].cell !== cell.none) {
+        new_x = Math.floor(Math.random() * 7);
+        new_y = Math.floor(Math.random() * 7);
+      }
+      bb[new_y][new_x] = { cell: cell.card };
+      setBoard(bb);
+    }
+    for (let i = 0; i < 4; i++) {
+      let bb = Array.from(board);
+      let new_x = Math.floor(Math.random() * 7);
+      let new_y = Math.floor(Math.random() * 7);
+      while (board[new_y][new_x].cell !== cell.none) {
+        new_x = Math.floor(Math.random() * 7);
+        new_y = Math.floor(Math.random() * 7);
+      }
+      bb[new_y][new_x] = { cell: cell.monster, heart: 2, attacked: false };
+      setBoard(bb);
     }
     setLoading(false);
   }, []);
