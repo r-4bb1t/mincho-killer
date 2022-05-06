@@ -11,7 +11,7 @@ export default function Monster({ heart, attacked }: MonsterProps) {
     <S.MonsterContainer>
       <S.Monster>
         <img src="/assets/monster.png" />
-        <S.Heart percent={(heart / 3) * 100}></S.Heart>
+        <S.Heart percent={(heart / 2) * 100}></S.Heart>
       </S.Monster>
       {attacked && (
         <S.AttackEffect>

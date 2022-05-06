@@ -20,15 +20,23 @@ export default function Game() {
     removingIndex,
     heart,
     isGameover,
+    isWin,
     disabled,
-    bossHeart,
-    bossAttacked,
+    attacked,
   } = useGame();
   return (
     <S.Layout>
       {isGameover && (
         <S.GameoverContainer>
           <S.Gameover>GAME OVER</S.Gameover>
+          <S.RestartButton onClick={() => window.location.reload()}>
+            <Autorenew />
+          </S.RestartButton>
+        </S.GameoverContainer>
+      )}
+      {isWin && (
+        <S.GameoverContainer>
+          <S.Gameover>💕YOU WIN💕</S.Gameover>
           <S.RestartButton onClick={() => window.location.reload()}>
             <Autorenew />
           </S.RestartButton>
@@ -47,10 +55,13 @@ export default function Game() {
                 {
                   {
                     [cell.none]: <></>,
-                    [cell.player]: <Player />,
+                    [cell.player]: <Player attacked={attacked} />,
                     [cell.card]: <Card />,
                     [cell.boss]: (
-                      <Boss heart={bossHeart} attacked={bossAttacked} />
+                      <Boss
+                        heart={board[yi][xi].heart!}
+                        attacked={board[yi][xi].attacked!}
+                      />
                     ),
                     [cell.monster]: (
                       <Monster
@@ -75,8 +86,12 @@ export default function Game() {
         <S.CardContainer>
           {cards.map((id: number, index: number) => (
             <S.Card
-              index={index}
+              index={index % 5}
+              lineIndex={
+                index >= Math.floor(cards.length / 5) * 5 ? cards.length % 5 : 5
+              }
               allIndex={cards.length}
+              y={Math.floor(index / 5)}
               onClick={(e) => {
                 if (removingIndex === -1 && !disabled)
                   handleAction(index, cardList[id].type, cardList[id].action);
@@ -86,8 +101,11 @@ export default function Game() {
               disabled={disabled}
               key={index}
             >
-              <S.CardTitle>{cardList[id].name}</S.CardTitle>
-              <S.CardIcon></S.CardIcon>
+              <S.CardTitle>{cardList[id].name}</S.CardTitle>{" "}
+              <S.CardIcon>
+                <SvgIcon component={cardList[id].icon} />
+              </S.CardIcon>
+              {index > Math.floor(cards.length / 5) * 5 ? cards.length % 5 : 5}
               <S.CardDescription>{cardList[id].description}</S.CardDescription>
             </S.Card>
           ))}

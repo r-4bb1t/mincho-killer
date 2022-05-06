@@ -7,7 +7,7 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   background-color: lightblue;
-  overflow-y: hidden;
+  overflow: hidden;
 `;
 
 export const GameSection = styled.section`
@@ -21,7 +21,7 @@ export const GameSection = styled.section`
 `;
 
 export const CardsSection = styled.section`
-  width: 100vw;
+  max-width: 100vw;
   height: 250px;
   left: 0;
   bottom: 0;
@@ -39,23 +39,14 @@ const removeCard = keyframes`
   }
 `;
 
-const newCard = keyframes`
-  from {
-    opacity: 0;
-    box-shadow: 0 4px 30px rgba(255, 217, 0, 0.3);
-  }
-  to {
-    opacity: 1;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  }
-`;
-
 interface CardProps {
   index: number;
   allIndex: number;
   removing: boolean;
   type: actionType;
   disabled: boolean;
+  y: number;
+  lineIndex: number;
 }
 
 export const CardContainer = styled.div`
@@ -70,11 +61,11 @@ export const Card = styled.div<CardProps>`
   left: 0;
   width: 200px;
   height: 300px;
-  z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2)};
+  z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2) + p.y * 10};
   transform: ${(p) =>
-    `rotate(${(p.index - (p.allIndex - 1) / 2) * 3}deg) translate(${
-      (p.index - (p.allIndex - 1) / 2) * 160
-    }px, ${Math.abs(p.index - (p.allIndex - 1) / 2) - 30}px)`};
+    `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
+      (p.index - (p.lineIndex - 1) / 2) * 200
+    }px, ${-Math.abs(p.index - (p.lineIndex - 1) / 2) * 5 - 30 + p.y * 70}px)`};
   background: ${(p) =>
     p.disabled ? "rgba(205, 205, 205, 0.59)" : "rgba(255, 255, 255, 0.59)"};
   border-radius: 16px;
@@ -84,13 +75,14 @@ export const Card = styled.div<CardProps>`
   border: 1px solid rgba(255, 255, 255, 1);
   transition: all 0.2s;
   :hover {
-    z-index: 20;
     margin-top: -10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transform: ${(p) =>
-      `rotate(${(p.index - (p.allIndex - 1) / 2) * 3}deg) translate(${
-        (p.index - (p.allIndex - 1) / 2) * 160
-      }px, ${Math.abs(p.index - (p.allIndex - 1) / 2) - 30}px) scale(1.1)`};
+      `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
+        (p.index - (p.lineIndex - 1) / 2) * 200
+      }px, ${
+        Math.abs(p.index - (p.lineIndex - 1) / 2) - 200 + p.y * 100
+      }px) scale(1.1)`};
   }
   display: flex;
   flex-direction: column;

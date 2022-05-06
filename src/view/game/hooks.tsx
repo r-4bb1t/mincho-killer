@@ -17,6 +17,33 @@ export default function useGame() {
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
+      { cell: cell.card },
+      { cell: cell.none },
+      { cell: cell.none },
+    ],
+    [
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.monster, heart: 2, attacked: false },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+    ],
+    [
+      { cell: cell.card },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.none },
+      { cell: cell.card },
+    ],
+    [
+      { cell: cell.none },
+      { cell: cell.card },
+      { cell: cell.none },
+      { cell: cell.boss, heart: 5, attacked: false },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
@@ -24,11 +51,11 @@ export default function useGame() {
     [
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.monster, heart: 3, attacked: false },
+      { cell: cell.none },
+      { cell: cell.card },
       { cell: cell.none },
       { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
+      { cell: cell.monster, heart: 2, attacked: false },
     ],
     [
       { cell: cell.none },
@@ -41,51 +68,24 @@ export default function useGame() {
     ],
     [
       { cell: cell.none },
-      { cell: cell.card },
       { cell: cell.none },
-      { cell: cell.boss },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-    ],
-    [
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.monster, heart: 3, attacked: false },
-    ],
-    [
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.none },
-    ],
-    [
-      { cell: cell.none },
-      { cell: cell.none },
-      { cell: cell.monster, heart: 3, attacked: false },
+      { cell: cell.monster, heart: 2, attacked: false },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
       { cell: cell.none },
     ],
   ] as { cell: cell; heart?: number; attacked?: boolean }[][]);
-  const max_hp = 10;
-  const [heart, setHeart] = useState(3);
+  const max_hp = 5;
+  const [heart, setHeart] = useState(max_hp);
   const [loading, setLoading] = useState(true);
   const [isGameover, setIsGameover] = useState(false);
+  const [isWin, setIsWin] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [bossHeart, setBossHeart] = useState(10);
-  const [bossAttacked, setBossAttacked] = useState(false);
+  const [attacked, setAttacked] = useState(false);
 
   useEffect(() => {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 9; i++) {
       const randomCard = Math.floor(Math.random() * cardList.length);
       setCards((c) => [...c, cardList[randomCard].id]);
     }
@@ -93,19 +93,20 @@ export default function useGame() {
   }, []);
 
   useEffect(() => {
-    if (!loading && removingIndex === -1 && cards.length === 0) {
+    if (
+      !loading &&
+      removingIndex === -1 &&
+      (cards.length === 0 || heart === 0)
+    ) {
       gameover();
     }
-  }, [cards]);
+  }, [cards, heart]);
 
   useEffect(() => {
-    if (!loading && removingIndex === -1 && heart <= 0) {
-      gameover();
-    }
     async function yourTurn() {
-      await sleep(1000);
+      await sleep(500);
       board.map((y, yi) =>
-        y.map((x, xi) => {
+        y.map(async (x, xi) => {
           if (board[yi][xi].cell === cell.monster) {
             const dir = [
               [1, 0],
@@ -122,7 +123,36 @@ export default function useGame() {
               )
                 continue;
               if (board[yi + dir[i][0]][xi + dir[i][1]].cell === cell.player) {
-                setHeart((h) => h - 1);
+                setAttacked(true);
+                await sleep(800);
+                setAttacked(false);
+                setHeart((h) => Math.max(h - 1, 0));
+              }
+            }
+          } else if (board[yi][xi].cell === cell.boss) {
+            const dir = [
+              [1, 0],
+              [-1, 0],
+              [0, 1],
+              [0, -1],
+              [1, 1],
+              [-1, -1],
+              [-1, 1],
+              [1, -1],
+            ];
+            for (let i = 0; i < 8; i++) {
+              if (
+                yi + dir[i][0] < 0 ||
+                yi + dir[i][0] >= 7 ||
+                xi + dir[i][1] < 0 ||
+                xi + dir[i][1] >= 7
+              )
+                continue;
+              if (board[yi + dir[i][0]][xi + dir[i][1]].cell === cell.player) {
+                setAttacked(true);
+                await sleep(800);
+                setAttacked(false);
+                setHeart((h) => Math.max(h - 1, 0));
               }
             }
           }
@@ -147,12 +177,14 @@ export default function useGame() {
   const handleArrive = (arrivedCell: cell) => {
     switch (arrivedCell) {
       case cell.card:
-        const randomCard = Math.floor(Math.random() * cardList.length);
-        setCards((c) => [...c, cardList[randomCard].id]);
-        notify("새 카드를 얻었습니다.");
+        for (let i = 0; i < 3; i++) {
+          const randomCard = Math.floor(Math.random() * cardList.length);
+          setCards((c) => [...c, cardList[randomCard].id]);
+        }
+        notify("새 카드들을 얻었습니다.");
         return true;
       case cell.monster || cell.boss:
-        setHeart((h) => h - 1);
+        setHeart((h) => Math.max(h - 1, 0));
         notify("몬스터에게 한 대 맞았습니다.");
         return false;
       default:
@@ -217,13 +249,16 @@ export default function useGame() {
         });
         break;
 
-      case actionType.maxHeal:
-        setHeart(max_hp);
-        break;
-
       case actionType.tp:
         let new_x = Math.floor(Math.random() * 7);
         let new_y = Math.floor(Math.random() * 7);
+        while (
+          board[new_y][new_x].cell === cell.monster ||
+          board[new_y][new_x].cell === cell.boss
+        ) {
+          new_x = Math.floor(Math.random() * 7);
+          new_y = Math.floor(Math.random() * 7);
+        }
         let bb = Array.from(board);
         if (handleArrive(bb[new_y][new_x].cell)) {
           bb[cy][cx].cell = cell.none;
@@ -231,7 +266,8 @@ export default function useGame() {
           cy += new_y;
           cx += new_x;
           setBoard(bb);
-        } else flag = true;
+        }
+        notify("순간이동했어요!");
         break;
 
       case actionType.newCards:
@@ -241,6 +277,7 @@ export default function useGame() {
             cardList[Math.floor(Math.random() * cardList.length)].id
           );
         }
+        notify("카드가 모두 바뀌었습니다.");
         setCards(newcards);
         break;
 
@@ -248,9 +285,10 @@ export default function useGame() {
         for (let i = 0; i < a[0]!.num!; i++) {
           const randomCard = Math.floor(Math.random() * cardList.length);
           setCards((c) => [...c, cardList[randomCard].id]);
-          notify("새 카드를 얻었습니다.");
         }
+        notify("새 카드를 얻었습니다.");
         break;
+
       case actionType.attack:
         a.forEach(async (aa) => {
           if (
@@ -261,20 +299,35 @@ export default function useGame() {
           ) {
           } else {
             let bb = Array.from(board);
-            if (bb[cy + aa.y!][cx + aa.x!].cell === cell.monster) {
+            if (
+              bb[cy + aa.y!][cx + aa.x!].cell === cell.monster ||
+              bb[cy + aa.y!][cx + aa.x!].cell === cell.boss
+            ) {
               bb[cy + aa.y!][cx + aa.x!].heart! -= aa.num!;
               bb[cy + aa.y!][cx + aa.x!].attacked! = true;
               setBoard(bb);
               await sleep(300);
               let bbb = Array.from(bb);
               bbb[cy + aa.y!][cx + aa.x!].attacked! = false;
+              if (bbb[cy + aa.y!][cx + aa.x!].heart! <= 0) {
+                if (bbb[cy + aa.y!][cx + aa.x!].cell === cell.boss) {
+                  setIsWin(true);
+                } else {
+                  bbb[cy + aa.y!][cx + aa.x!].cell = cell.none;
+                  for (let i = 0; i < 3; i++) {
+                    const randomCard = Math.floor(
+                      Math.random() * cardList.length
+                    );
+                    setCards((c) => [...c, cardList[randomCard].id]);
+                  }
+                  notify("몬스터를 처치하고 카드들을 얻었습니다.");
+                }
+              }
               setBoard(bbb);
             }
           }
         });
         break;
-      case actionType.heal:
-        a.forEach((aa) => setHeart((h) => Math.max(h + aa.num!, 5)));
     }
     setTurn((t) => t + 1);
   };
@@ -283,11 +336,11 @@ export default function useGame() {
     board,
     heart,
     setBoard,
+    attacked,
     handleAction,
     removingIndex,
     isGameover,
     disabled,
-    bossAttacked,
-    bossHeart,
+    isWin,
   };
 }
