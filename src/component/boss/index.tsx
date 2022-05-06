@@ -10,7 +10,7 @@ export default function Boss({ heart, attacked }: BossProps) {
   return (
     <S.BossContainer>
       <S.Boss>
-        <img src="/assets/Boss.png" />
+        <img src="/assets/boss.png" />
         <S.Heart percent={(heart / 5) * 100}></S.Heart>
       </S.Boss>
       {attacked && (
