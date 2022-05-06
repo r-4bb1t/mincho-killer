@@ -139,7 +139,7 @@ export const cardList = [
     name: "체력 포션",
     type: actionType.heal,
     action: [{ num: 3 }],
-    discription: "체력을 3 회복합니다.",
+    description: "체력을 3 회복합니다.",
   },
   {
     id: 11,
