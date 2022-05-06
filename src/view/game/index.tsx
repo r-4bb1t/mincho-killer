@@ -70,9 +70,7 @@ export default function Game() {
               key={index}
             >
               <S.CardTitle>{cardList[id].name}</S.CardTitle>
-              <S.CardIcon>
-                <SvgIcon component={cardList[id].icon} />
-              </S.CardIcon>
+              <S.CardIcon></S.CardIcon>
               <S.CardDescription>{cardList[id].description}</S.CardDescription>
             </S.Card>
           ))}

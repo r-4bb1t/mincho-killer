@@ -8,8 +8,6 @@ function sleep(sec: number) {
 }
 
 export default function useGame() {
-  const [hp, setHp] = useState(3);
-  const max_hp = 10;
   const [turn, setTurn] = useState(0);
   const [cards, setCards] = useState([] as number[]);
   const [removingIndex, setRemovingIndex] = useState(-1);
@@ -78,6 +76,7 @@ export default function useGame() {
       { cell: cell.none },
     ],
   ] as { cell: cell }[][]);
+  const max_hp = 10;
   const [heart, setHeart] = useState(3);
   const [loading, setLoading] = useState(true);
   const [isGameover, setIsGameover] = useState(false);
@@ -175,12 +174,12 @@ export default function useGame() {
 
       case actionType.heal:
         a.forEach((aa) => {
-          setHp(Math.min(hp + aa.num!, max_hp));
+          setHeart(Math.min(heart + aa.num!, max_hp));
         });
         break;
 
       case actionType.maxHeal:
-        setHp(max_hp);
+        setHeart(max_hp);
         break;
 
       case actionType.tp:
@@ -198,7 +197,7 @@ export default function useGame() {
 
       case actionType.newCards:
         const newcards = [];
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < cards.length; i++) {
           newcards.push(
             cardList[Math.floor(Math.random() * cardList.length)].id
           );
