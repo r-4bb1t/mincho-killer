@@ -199,13 +199,18 @@ export const GameoverContainer = styled.div`
   width: 100%;
   height: 100%;
   z-index: 30;
-  gap: 20px;
 `;
 
 export const Gameover = styled.div`
   color: white;
   font-size: 72px;
   font-weight: 700;
+`;
+
+export const Turn = styled.div`
+  color: white;
+  font-size: 24px;
+  font-weight: 300;
 `;
 
 export const RestartButton = styled.button`
@@ -220,6 +225,7 @@ export const RestartButton = styled.button`
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, 0.59);
   border: 1px solid white;
+  margin-top: 30px;
   svg {
     font-size: 50px;
   }

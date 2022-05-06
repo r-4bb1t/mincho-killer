@@ -364,5 +364,6 @@ export default function useGame() {
     isGameover,
     disabled,
     isWin,
+    turn,
   };
 }

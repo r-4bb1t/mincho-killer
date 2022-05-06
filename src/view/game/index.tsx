@@ -23,6 +23,7 @@ export default function Game() {
     isWin,
     disabled,
     attacked,
+    turn,
   } = useGame();
   return (
     <S.Layout>
@@ -37,6 +38,9 @@ export default function Game() {
       {isWin && (
         <S.GameoverContainer>
           <S.Gameover>💕YOU WIN💕</S.Gameover>
+          <S.Turn>
+            <b>{turn}턴</b>만에 민초보스를 먹어치웠습니다!
+          </S.Turn>
           <S.RestartButton onClick={() => window.location.reload()}>
             <Autorenew />
           </S.RestartButton>
@@ -101,7 +105,7 @@ export default function Game() {
               disabled={disabled}
               key={index}
             >
-              <S.CardTitle>{cardList[id].name}</S.CardTitle>{" "}
+              <S.CardTitle>{cardList[id].name}</S.CardTitle>
               <S.CardIcon>
                 <SvgIcon component={cardList[id].icon} />
               </S.CardIcon>
