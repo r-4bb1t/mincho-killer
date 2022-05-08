@@ -205,7 +205,8 @@ export default function useGame() {
         }
         notify("새 카드들을 얻었습니다.");
         return true;
-      case cell.monster || cell.boss:
+      case cell.monster:
+      case cell.boss:
         setHeart((h) => Math.max(h - 1, 0));
         notify("몬스터에게 한 대 맞았습니다.");
         return false;
