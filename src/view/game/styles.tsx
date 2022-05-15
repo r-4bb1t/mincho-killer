@@ -18,6 +18,9 @@ export const GameSection = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-height: 680px) {
+    transform: scale(0.7);
+  }
 `;
 
 export const CardsSection = styled.section`
@@ -28,6 +31,9 @@ export const CardsSection = styled.section`
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  @media screen and (max-height: 680px) {
+    transform: scale(0.6);
+  }
 `;
 
 const removeCard = keyframes`

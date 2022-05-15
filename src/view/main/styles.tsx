@@ -54,6 +54,9 @@ export const CardsSection = styled.section`
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  @media screen and (max-height: 680px) {
+    transform: scale(0.6);
+  }
 `;
 
 interface CardProps {

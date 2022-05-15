@@ -25,6 +25,18 @@ export default function Game() {
     attacked,
     turn,
   } = useGame();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 680 && !isMobile) setIsMobile(true);
+      else if (window.innerWidth > 680) setIsMobile(false);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMobile]);
+
   return (
     <S.Layout>
       {isGameover && (
@@ -90,12 +102,18 @@ export default function Game() {
         <S.CardContainer>
           {cards.map((id: number, index: number) => (
             <S.Card
-              index={index % 5}
+              index={isMobile ? index % 3 : index % 5}
               lineIndex={
-                index >= Math.floor(cards.length / 5) * 5 ? cards.length % 5 : 5
+                isMobile
+                  ? index >= Math.floor(cards.length / 3) * 3
+                    ? cards.length % 3
+                    : 3
+                  : index >= Math.floor(cards.length / 5) * 5
+                  ? cards.length % 5
+                  : 5
               }
               allIndex={cards.length}
-              y={Math.floor(index / 5)}
+              y={isMobile ? Math.floor(index / 3) : Math.floor(index / 5)}
               onClick={(e) => {
                 if (removingIndex === -1 && !disabled)
                   handleAction(index, cardList[id].type, cardList[id].action);
