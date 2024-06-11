@@ -2,6 +2,7 @@ import Boss from "../../component/boss";
 import Monster from "../../component/monster";
 import { Heart } from "lucide-react";
 import * as S from "./styles";
+import { Link } from "react-router-dom";
 
 export default function Main() {
   return (
@@ -14,7 +15,7 @@ export default function Main() {
       <S.Title>민초킬러</S.Title>
       <S.Subtitle>민초가🌱세상을🌏지배👊한다👽💚</S.Subtitle>
       <S.Button>
-        <a href="/game">START</a>
+        <Link to="/game">START</Link>
       </S.Button>
       <S.CardsSection>
         <S.CardContainer>
