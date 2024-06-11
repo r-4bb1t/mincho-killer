@@ -8,9 +8,8 @@ import useGame from "./hooks";
 import * as S from "./styles";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { SvgIcon } from "@material-ui/core";
-import { Autorenew, Favorite } from "@material-ui/icons";
 import Monster from "../../component/monster";
+import { Heart, RefreshCcw } from "lucide-react";
 
 export default function Game() {
   const {
@@ -43,7 +42,7 @@ export default function Game() {
         <S.GameoverContainer>
           <S.Gameover>GAME OVER</S.Gameover>
           <S.RestartButton onClick={() => window.location.reload()}>
-            <Autorenew />
+            <RefreshCcw />
           </S.RestartButton>
         </S.GameoverContainer>
       )}
@@ -54,20 +53,25 @@ export default function Game() {
             <b>{turn}턴</b>만에 민초보스를 먹어치웠습니다!
           </S.Turn>
           <S.RestartButton onClick={() => window.location.reload()}>
-            <Autorenew />
+            <RefreshCcw />
           </S.RestartButton>
         </S.GameoverContainer>
       )}
       <S.GameSection>
         <S.HeartContainer>
           {[...Array(heart)].map((n, i) => (
-            <Favorite key={n} />
+            <Heart
+              key={i}
+              style={{
+                fill: "#e94b4b",
+              }}
+            />
           ))}
         </S.HeartContainer>
         <S.Board>
           {board.map((y, yi) =>
             y.map((x, xi) => (
-              <S.BoardCell animationIndex={yi + xi} key={yi * 100 + xi}>
+              <S.BoardCell $animationIndex={yi + xi} key={yi * 100 + xi}>
                 {
                   {
                     [cell.none]: <></>,
@@ -102,8 +106,8 @@ export default function Game() {
         <S.CardContainer>
           {cards.map((id: number, index: number) => (
             <S.Card
-              index={isMobile ? index % 3 : index % 5}
-              lineIndex={
+              $index={isMobile ? index % 3 : index % 5}
+              $lineIndex={
                 isMobile
                   ? index >= Math.floor(cards.length / 3) * 3
                     ? cards.length % 3
@@ -112,20 +116,20 @@ export default function Game() {
                   ? cards.length % 5
                   : 5
               }
-              allIndex={cards.length}
-              y={isMobile ? Math.floor(index / 3) : Math.floor(index / 5)}
+              $allIndex={cards.length}
+              $y={isMobile ? Math.floor(index / 3) : Math.floor(index / 5)}
               onClick={(e) => {
                 if (removingIndex === -1 && !disabled)
                   handleAction(index, cardList[id].type, cardList[id].action);
               }}
-              removing={removingIndex === index}
-              type={cardList[id].type}
-              disabled={disabled}
+              $removing={removingIndex === index}
+              $type={cardList[id].type}
+              $disabled={disabled}
               key={index}
             >
               <S.CardTitle>{cardList[id].name}</S.CardTitle>
               <S.CardIcon>
-                <SvgIcon component={cardList[id].icon} />
+                <GetIcon id={id} />
               </S.CardIcon>
               <S.CardDescription>{cardList[id].description}</S.CardDescription>
             </S.Card>
@@ -135,3 +139,8 @@ export default function Game() {
     </S.Layout>
   );
 }
+
+const GetIcon = ({ id }: { id: number }) => {
+  const Icon = cardList[id].icon;
+  return <Icon size={32} />;
+};

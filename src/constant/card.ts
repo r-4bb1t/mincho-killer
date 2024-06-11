@@ -1,17 +1,15 @@
 import {
-  ArrowBack,
-  ArrowDownward,
-  ArrowForward,
-  ArrowUpward,
-  Flare,
-  GridOn,
-  LocalHospital,
-  LocalHospitalOutlined,
-  LocationOnOutlined,
-  PlusOne,
-  SelectAll,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  HeartPulseIcon,
+  MapPin,
+  PackagePlus,
   Shuffle,
-} from "@material-ui/icons";
+  Sparkle,
+  Sparkles,
+} from "lucide-react";
 
 export interface cardInterface {
   name: string;
@@ -38,7 +36,7 @@ export const cardList = [
     id: 0,
     name: "왼쪽으로 한 칸 이동",
     type: actionType.move,
-    icon: ArrowBack,
+    icon: ArrowLeft,
     action: [{ y: 0, x: -1 }],
     description:
       "왼쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
@@ -48,7 +46,7 @@ export const cardList = [
     name: "오른쪽으로 한 칸 이동",
     type: actionType.move,
     action: [{ y: 0, x: 1 }],
-    icon: ArrowForward,
+    icon: ArrowRight,
     description:
       "오른쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -57,7 +55,7 @@ export const cardList = [
     name: "위쪽으로 한 칸 이동",
     type: actionType.move,
     action: [{ y: -1, x: 0 }],
-    icon: ArrowUpward,
+    icon: ArrowUp,
     description:
       "위쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -66,7 +64,7 @@ export const cardList = [
     name: "아래쪽으로 한 칸 이동",
     type: actionType.move,
     action: [{ y: 1, x: 0 }],
-    icon: ArrowDownward,
+    icon: ArrowDown,
     description:
       "아래쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -75,14 +73,14 @@ export const cardList = [
     name: "카드 한 장 뽑기",
     type: actionType.draw,
     action: [{ num: 1 }],
-    icon: PlusOne,
+    icon: PackagePlus,
     description: "카드를 한 장 뽑습니다.",
   },
   {
     id: 5,
     name: "왼쪽으로 두 칸 이동",
     type: actionType.move,
-    icon: ArrowBack,
+    icon: ArrowLeft,
     action: [
       { y: 0, x: -1 },
       { y: 0, x: -1 },
@@ -98,7 +96,7 @@ export const cardList = [
       { y: 0, x: 1 },
       { y: 0, x: 1 },
     ],
-    icon: ArrowForward,
+    icon: ArrowRight,
     description:
       "오른쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -110,7 +108,7 @@ export const cardList = [
       { y: -1, x: 0 },
       { y: -1, x: 0 },
     ],
-    icon: ArrowUpward,
+    icon: ArrowUp,
     description:
       "위쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -122,7 +120,7 @@ export const cardList = [
       { y: 1, x: 0 },
       { y: 1, x: 0 },
     ],
-    icon: ArrowDownward,
+    icon: ArrowDown,
     description:
       "아래쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
   },
@@ -136,7 +134,7 @@ export const cardList = [
       { y: -1, x: 0, num: 1 },
       { y: 0, x: -1, num: 1 },
     ],
-    icon: Flare,
+    icon: Sparkle,
     description: "왼쪽, 오른쪽, 위쪽, 아래쪽 사방향에 기본 공격을 날립니다.",
   },
   {
@@ -144,14 +142,14 @@ export const cardList = [
     name: "체력 포션",
     type: actionType.heal,
     action: [{ num: 3 }],
-    icon: LocalHospital,
+    icon: HeartPulseIcon,
     description: "체력을 3 회복합니다.",
   },
   {
     id: 11,
     name: "파워 엘릭서",
     type: actionType.heal,
-    icon: LocalHospitalOutlined,
+    icon: HeartPulseIcon,
     description: "체력을 모두 회복합니다.",
     action: [{ num: 5 }],
   },
@@ -159,7 +157,7 @@ export const cardList = [
     id: 12,
     name: "순간이동",
     type: actionType.tp,
-    icon: LocationOnOutlined,
+    icon: MapPin,
     description: "순간이동합니다. 어디로 갈지는 몰라요!",
     action: [],
   },
@@ -181,7 +179,7 @@ export const cardList = [
       { y: -1, x: 0, num: 2 },
       { y: 0, x: -1, num: 2 },
     ],
-    icon: Flare,
+    icon: Sparkles,
     description: "왼쪽, 오른쪽, 위쪽, 아래쪽 사방향에 강한 공격을 날립니다.",
   },
   {
@@ -194,7 +192,7 @@ export const cardList = [
       { y: 1, x: -1, num: 1 },
       { y: -1, x: -1, num: 1 },
     ],
-    icon: Flare,
+    icon: Sparkle,
     description: "인접한 대각선 네 칸에 기본 공격을 날립니다.",
   },
   {
@@ -207,7 +205,7 @@ export const cardList = [
       { y: 1, x: -1, num: 2 },
       { y: -1, x: -1, num: 2 },
     ],
-    icon: Flare,
+    icon: Sparkles,
     description: "인접한 대각선 네 칸에 강한 공격을 날립니다.",
   },
 ];

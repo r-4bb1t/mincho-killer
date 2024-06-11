@@ -60,10 +60,10 @@ export const CardsSection = styled.section`
 `;
 
 interface CardProps {
-  index: number;
-  allIndex: number;
-  y: number;
-  lineIndex: number;
+  $index: number;
+  $allIndex: number;
+  $y: number;
+  $lineIndex: number;
 }
 
 export const CardContainer = styled.div`
@@ -78,11 +78,12 @@ export const Card = styled.div<CardProps>`
   left: 0;
   width: 180px;
   height: 260px;
-  z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2) + p.y * 10};
+  z-index: ${(p) =>
+    10 - Math.abs(p.$index - (p.$allIndex - 1) / 2) + p.$y * 10};
   transform: ${(p) =>
-    `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-      (p.index - (p.lineIndex - 1) / 2) * 180
-    }px, ${-Math.abs(p.index - (p.lineIndex - 1) / 2) * 5 - 10 + 120}px)`};
+    `rotate(${(p.$index - (p.$lineIndex - 1) / 2) * 3}deg) translate(${
+      (p.$index - (p.$lineIndex - 1) / 2) * 180
+    }px, ${-Math.abs(p.$index - (p.$lineIndex - 1) / 2) * 5 - 10 + 120}px)`};
   background: rgba(255, 255, 255, 0.59);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -90,14 +91,14 @@ export const Card = styled.div<CardProps>`
   -webkit-backdrop-filter: blur(8.7px);
   border: 1px solid rgba(255, 255, 255, 1);
   transition: all 0.2s;
-  :hover {
+  &:hover {
     margin-top: -10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transform: ${(p) =>
-      `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-        (p.index - (p.lineIndex - 1) / 2) * 180
+      `rotate(${(p.$index - (p.$lineIndex - 1) / 2) * 3}deg) translate(${
+        (p.$index - (p.$lineIndex - 1) / 2) * 180
       }px, ${
-        Math.abs(p.index - (p.lineIndex - 1) / 2) - 80 + 120
+        Math.abs(p.$index - (p.$lineIndex - 1) / 2) - 80 + 120
       }px) scale(1.1)`};
   }
   display: flex;
@@ -117,9 +118,8 @@ export const CardTitle = styled.div`
 export const CardIcon = styled.div`
   margin: 20px 0;
   svg {
-    font-size: 40px;
-    border-radius: 20px;
-    padding: 5px;
+    border-radius: 1000px;
+    padding: 6px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     background: rgba(255, 255, 255, 0.2);
     color: #e94b4b;

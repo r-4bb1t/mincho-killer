@@ -33,11 +33,11 @@ export const BossContainer = styled.div`
 `;
 
 interface HeartProps {
-  percent: number;
+  $percent: number;
 }
 
 export const Heart = styled.div<HeartProps>`
-  width: ${(p) => p.percent}%;
+  width: ${(p) => p.$percent}%;
   height: 3px;
   background-color: #e94b4b;
 `;

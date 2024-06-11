@@ -46,13 +46,13 @@ const removeCard = keyframes`
 `;
 
 interface CardProps {
-  index: number;
-  allIndex: number;
-  removing: boolean;
-  type: actionType;
-  disabled: boolean;
-  y: number;
-  lineIndex: number;
+  $index: number;
+  $allIndex: number;
+  $removing: boolean;
+  $type: actionType;
+  $disabled: boolean;
+  $y: number;
+  $lineIndex: number;
 }
 
 export const CardContainer = styled.div`
@@ -67,27 +67,30 @@ export const Card = styled.div<CardProps>`
   left: 0;
   width: 180px;
   height: 260px;
-  z-index: ${(p) => 10 - Math.abs(p.index - (p.allIndex - 1) / 2) + p.y * 10};
+  z-index: ${(p) =>
+    10 - Math.abs(p.$index - (p.$allIndex - 1) / 2) + p.$y * 10};
   transform: ${(p) =>
-    `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-      (p.index - (p.lineIndex - 1) / 2) * 180
-    }px, ${-Math.abs(p.index - (p.lineIndex - 1) / 2) * 5 - 10 + p.y * 70}px)`};
+    `rotate(${(p.$index - (p.$lineIndex - 1) / 2) * 3}deg) translate(${
+      (p.$index - (p.$lineIndex - 1) / 2) * 180
+    }px, ${
+      -Math.abs(p.$index - (p.$lineIndex - 1) / 2) * 5 - 10 + p.$y * 70
+    }px)`};
   background: ${(p) =>
-    p.disabled ? "rgba(205, 205, 205, 0.59)" : "rgba(255, 255, 255, 0.59)"};
+    p.$disabled ? "rgba(205, 205, 205, 0.59)" : "rgba(255, 255, 255, 0.59)"};
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8.7px);
   -webkit-backdrop-filter: blur(8.7px);
   border: 1px solid rgba(255, 255, 255, 1);
   transition: all 0.2s;
-  :hover {
+  &:hover {
     margin-top: -10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transform: ${(p) =>
-      `rotate(${(p.index - (p.lineIndex - 1) / 2) * 3}deg) translate(${
-        (p.index - (p.lineIndex - 1) / 2) * 180
+      `rotate(${(p.$index - (p.$lineIndex - 1) / 2) * 3}deg) translate(${
+        (p.$index - (p.$lineIndex - 1) / 2) * 180
       }px, ${
-        Math.abs(p.index - (p.lineIndex - 1) / 2) - 140 + p.y * 80
+        Math.abs(p.$index - (p.$lineIndex - 1) / 2) - 140 + p.$y * 80
       }px) scale(1.1)`};
   }
   display: flex;
@@ -95,7 +98,7 @@ export const Card = styled.div<CardProps>`
   align-items: center;
   padding: 20px;
   ${(p) =>
-    p.removing &&
+    p.$removing &&
     css`
       animation: 0.5s ${removeCard} ease;
     `}
@@ -108,11 +111,11 @@ export const Card = styled.div<CardProps>`
     height: 5px;
     content: "";
     background: ${(p) =>
-      p.type === actionType.move
+      p.$type === actionType.move
         ? "#839adf"
-        : p.type === actionType.attack
+        : p.$type === actionType.attack
         ? "#e16d6d"
-        : p.type === actionType.heal
+        : p.$type === actionType.heal
         ? "#589558"
         : "white"};
   }
@@ -127,7 +130,7 @@ export const Board = styled.div`
 `;
 
 interface BoardCellProps {
-  animationIndex: number;
+  $animationIndex: number;
 }
 
 const ceil = keyframes`
@@ -148,14 +151,14 @@ export const BoardCell = styled.div<BoardCellProps>`
   height: 60px;
   opacity: 0;
 
-  animation: 0.2s ${(p) => p.animationIndex / 10}s ${ceil} ease-in-out;
+  animation: 0.2s ${(p) => p.$animationIndex / 10}s ${ceil} ease-in-out;
   animation-fill-mode: forwards;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  :nth-child(odd) {
+  &:nth-child(odd) {
     background-color: rgba(225, 225, 225, 0.59);
   }
 `;
@@ -170,9 +173,8 @@ export const CardTitle = styled.div`
 export const CardIcon = styled.div`
   margin: 20px 0;
   svg {
-    font-size: 40px;
-    border-radius: 20px;
-    padding: 5px;
+    border-radius: 1000px;
+    padding: 6px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     background: rgba(255, 255, 255, 0.2);
   }
