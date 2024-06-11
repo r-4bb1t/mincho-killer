@@ -180,6 +180,9 @@ export default function useGame() {
           }
         })
       );
+
+      const randomCard = Math.floor(Math.random() * cardList.length);
+      setCards((c) => [...c, cardList[randomCard].id]);
       await sleep(500);
       setDisabled(false);
     }
