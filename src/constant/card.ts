@@ -38,8 +38,7 @@ export const cardList = [
     type: actionType.move,
     icon: ArrowLeft,
     action: [{ y: 0, x: -1 }],
-    description:
-      "왼쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "왼쪽으로 한 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 1,
@@ -47,8 +46,7 @@ export const cardList = [
     type: actionType.move,
     action: [{ y: 0, x: 1 }],
     icon: ArrowRight,
-    description:
-      "오른쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "오른쪽으로 한 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 2,
@@ -56,8 +54,7 @@ export const cardList = [
     type: actionType.move,
     action: [{ y: -1, x: 0 }],
     icon: ArrowUp,
-    description:
-      "위쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "위쪽으로 한 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 3,
@@ -65,16 +62,15 @@ export const cardList = [
     type: actionType.move,
     action: [{ y: 1, x: 0 }],
     icon: ArrowDown,
-    description:
-      "아래쪽으로 한 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "아래쪽으로 한 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 4,
-    name: "카드 한 장 뽑기",
+    name: "카드 세 장 뽑기",
     type: actionType.draw,
-    action: [{ num: 1 }],
+    action: [{ num: 3 }],
     icon: PackagePlus,
-    description: "카드를 한 장 뽑습니다.",
+    description: "카드를 세 장 뽑습니다.",
   },
   {
     id: 5,
@@ -85,8 +81,7 @@ export const cardList = [
       { y: 0, x: -1 },
       { y: 0, x: -1 },
     ],
-    description:
-      "왼쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "왼쪽으로 두 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 6,
@@ -97,8 +92,7 @@ export const cardList = [
       { y: 0, x: 1 },
     ],
     icon: ArrowRight,
-    description:
-      "오른쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "오른쪽으로 두 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 7,
@@ -109,8 +103,7 @@ export const cardList = [
       { y: -1, x: 0 },
     ],
     icon: ArrowUp,
-    description:
-      "위쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "위쪽으로 두 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 8,
@@ -121,8 +114,7 @@ export const cardList = [
       { y: 1, x: 0 },
     ],
     icon: ArrowDown,
-    description:
-      "아래쪽으로 두 칸 이동합니다. 이동할 수 없는 경우 아무 것도 하지 않습니다.",
+    description: "아래쪽으로 두 칸 이동합니다. 이동이 가능한 만큼 움직입니다.",
   },
   {
     id: 9,
